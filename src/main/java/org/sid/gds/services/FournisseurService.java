@@ -1,16 +1,16 @@
-package org.sid.gds.services;
+package com.bouali.gestiondestock.services;
 
+import com.bouali.gestiondestock.dto.FournisseurDto;
 import java.util.List;
-
-import org.sid.gds.dto.FournisseurDto;
 
 public interface FournisseurService {
 
-	FournisseurDto save(FournisseurDto dto);
-	
-	FournisseurDto findById(Integer id);
-	
-	List<FournisseurDto> findall ();
-	
-	void delete (Integer id);
+  FournisseurDto save(FournisseurDto dto);
+
+  FournisseurDto findById(Integer id);
+
+  List<FournisseurDto> findAll();
+
+  void delete(Integer id);
+
 }

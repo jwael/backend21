@@ -1,86 +1,93 @@
-package org.sid.gds.services.impl;
+package com.bouali.gestiondestock.services.impl;
 
+import com.bouali.gestiondestock.dto.CategoryDto;
+import com.bouali.gestiondestock.exception.EntityNotFoundException;
+import com.bouali.gestiondestock.exception.ErrorCodes;
+import com.bouali.gestiondestock.exception.InvalidEntityException;
+import com.bouali.gestiondestock.exception.InvalidOperationException;
+import com.bouali.gestiondestock.model.Article;
+import com.bouali.gestiondestock.repository.ArticleRepository;
+import com.bouali.gestiondestock.repository.CategoryRepository;
+import com.bouali.gestiondestock.services.CategoryService;
+import com.bouali.gestiondestock.validator.CategoryValidator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.sid.gds.dto.CategoryDto;
-import org.sid.gds.exception.EntityNotFoundException;
-import org.sid.gds.exception.ErrorCodes;
-import org.sid.gds.exception.InvalidEntityException;
-import org.sid.gds.repository.CategoryRepository;
-import org.sid.gds.services.CategoryService;
-import org.sid.gds.validator.CategoryValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
-	
-	private CategoryRepository categoryRepository;
-	
-	@Autowired
-	public CategoryServiceImpl(CategoryRepository categoryRepository) {
-		this.categoryRepository=categoryRepository;
-	}
 
-	@Override
-	public CategoryDto save(CategoryDto dto) {
-		List<String> errors = CategoryValidator.validate(dto);
-		if(!errors.isEmpty()) {
-			log.error("article is not valid{}"+dto);
-			throw new InvalidEntityException("la category n est pas valide",ErrorCodes.CATEGORY_NOT_VALID,errors);
-		}
-		return CategoryDto.fromEntity(
-			categoryRepository.save(CategoryDto.toEntity(dto)));
-	}
+  private CategoryRepository categoryRepository;
+  private ArticleRepository articleRepository;
 
-	@Override
-	public CategoryDto findById(Integer id) {
-		if(id==null) {
-			log.error("category id is null");
-			return null;
-		}
-		return categoryRepository.findById(id)
-				.map(CategoryDto :: fromEntity)
-				.orElseThrow(() -> new EntityNotFoundException(
-						"aucune category avec id " + id + "n a ete trouve",ErrorCodes.CATEGORY_NOT_FOUND)
-						);
-				
-	}
+  @Autowired
+  public CategoryServiceImpl(CategoryRepository categoryRepository, ArticleRepository articleRepository) {
+    this.categoryRepository = categoryRepository;
+    this.articleRepository = articleRepository;
+  }
 
-	@Override
-	public CategoryDto findByCode(String code) {
-		if(!StringUtils.hasLength(code)) {
-			log.error("Category  code is null");
-			return null;
-		}
-		return categoryRepository.findCategoryByCode(code)
-			.map(CategoryDto::fromEntity)
-			.orElseThrow(() -> new EntityNotFoundException(
-					"aucune category avec le code" +code+ "n a pas ete trouve",ErrorCodes.CATEGORY_NOT_FOUND)
-					);
-	}
+  @Override
+  public CategoryDto save(CategoryDto dto) {
+    List<String> errors = CategoryValidator.validate(dto);
+    if (!errors.isEmpty()) {
+      log.error("Article is not valid {}", dto);
+      throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
+    }
+    return CategoryDto.fromEntity(
+        categoryRepository.save(CategoryDto.toEntity(dto))
+    );
+  }
 
-	@Override
-	public List<CategoryDto> findall() {
-		
-		return categoryRepository.findAll().stream()
-				.map(CategoryDto::fromEntity)
-				.collect(Collectors.toList());
-	}
+  @Override
+  public CategoryDto findById(Integer id) {
+    if (id == null) {
+      log.error("Category ID is null");
+      return null;
+    }
+    return categoryRepository.findById(id)
+        .map(CategoryDto::fromEntity)
+        .orElseThrow(() -> new EntityNotFoundException(
+            "Aucune category avec l'ID = " + id + " n' ete trouve dans la BDD",
+            ErrorCodes.CATEGORY_NOT_FOUND)
+        );
+  }
 
-	@Override
-	public void delete(Integer id) {
-		if(id==null) {
-			log.error("Category id is null");
-			return;
-		}
-		
-		categoryRepository.deleteById(id);
-	}
+  @Override
+  public CategoryDto findByCode(String code) {
+    if (!StringUtils.hasLength(code)) {
+      log.error("Category CODE is null");
+      return null;
+    }
+    return categoryRepository.findCategoryByCode(code)
+        .map(CategoryDto::fromEntity)
+        .orElseThrow(() -> new EntityNotFoundException(
+            "Aucune category avec le CODE = " + code + " n' ete trouve dans la BDD",
+            ErrorCodes.CATEGORY_NOT_FOUND)
+        );
+  }
 
+  @Override
+  public List<CategoryDto> findAll() {
+    return categoryRepository.findAll().stream()
+        .map(CategoryDto::fromEntity)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public void delete(Integer id) {
+    if (id == null) {
+      log.error("Category ID is null");
+      return;
+    }
+    List<Article> articles = articleRepository.findAllByCategoryId(id);
+    if (!articles.isEmpty()) {
+      throw new InvalidOperationException("Impossible de supprimer cette categorie qui est deja utilise",
+          ErrorCodes.CATEGORY_ALREADY_IN_USE);
+    }
+    categoryRepository.deleteById(id);
+  }
 }

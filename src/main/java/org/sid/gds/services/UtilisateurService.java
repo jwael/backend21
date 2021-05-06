@@ -1,17 +1,22 @@
-package org.sid.gds.services;
+package com.bouali.gestiondestock.services;
 
+import com.bouali.gestiondestock.dto.ChangerMotDePasseUtilisateurDto;
+import com.bouali.gestiondestock.dto.UtilisateurDto;
 import java.util.List;
-
-	
-import org.sid.gds.dto.UtilisateurDto;
 
 public interface UtilisateurService {
 
-	UtilisateurDto save(UtilisateurDto dto);
-	
-	UtilisateurDto findById(Integer id);
-	
-	List<UtilisateurDto> findall ();
-	
-	void delete (Integer id);
+  UtilisateurDto save(UtilisateurDto dto);
+
+  UtilisateurDto findById(Integer id);
+
+  List<UtilisateurDto> findAll();
+
+  void delete(Integer id);
+
+  UtilisateurDto findByEmail(String email);
+
+  UtilisateurDto changerMotDePasse(ChangerMotDePasseUtilisateurDto dto);
+
+
 }

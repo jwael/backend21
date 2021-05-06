@@ -1,18 +1,29 @@
-package org.sid.gds.services;
+package com.bouali.gestiondestock.services;
 
+import com.bouali.gestiondestock.dto.ArticleDto;
+import com.bouali.gestiondestock.dto.LigneCommandeClientDto;
+import com.bouali.gestiondestock.dto.LigneCommandeFournisseurDto;
+import com.bouali.gestiondestock.dto.LigneVenteDto;
 import java.util.List;
-
-import org.sid.gds.dto.ArticleDto;
 
 public interface ArticleService {
 
-	ArticleDto save(ArticleDto dto);
-	
-	ArticleDto findById(Integer id);
-	
-	ArticleDto findByCodeArticle(String codeArticle);
-	
-	List<ArticleDto> findAll();
-	
-	void delete(Integer id);
+  ArticleDto save(ArticleDto dto);
+
+  ArticleDto findById(Integer id);
+
+  ArticleDto findByCodeArticle(String codeArticle);
+
+  List<ArticleDto> findAll();
+
+  List<LigneVenteDto> findHistoriqueVentes(Integer idArticle);
+
+  List<LigneCommandeClientDto> findHistoriaueCommandeClient(Integer idArticle);
+
+  List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(Integer idArticle);
+
+  List<ArticleDto> findAllArticleByIdCategory(Integer idCategory);
+
+  void delete(Integer id);
+
 }

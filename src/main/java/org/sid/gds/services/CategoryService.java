@@ -1,20 +1,18 @@
-package org.sid.gds.services;
+package com.bouali.gestiondestock.services;
 
+import com.bouali.gestiondestock.dto.CategoryDto;
 import java.util.List;
-
-import org.sid.gds.dto.CategoryDto;
 
 public interface CategoryService {
 
-	CategoryDto save(CategoryDto dto);
-	
-	CategoryDto findById(Integer id);
-	
-	CategoryDto findByCode(String code);
-	
-	List<CategoryDto> findall();
-	
-	void delete(Integer id);
-	
-	
+  CategoryDto save(CategoryDto dto);
+
+  CategoryDto findById(Integer id);
+
+  CategoryDto findByCode(String code);
+
+  List<CategoryDto> findAll();
+
+  void delete(Integer id);
+
 }

@@ -1,16 +1,16 @@
-package org.sid.gds.services;
+package com.bouali.gestiondestock.services;
 
+import com.bouali.gestiondestock.dto.EntrepriseDto;
 import java.util.List;
-
-import org.sid.gds.dto.EntrepriseDto;
 
 public interface EntrepriseService {
 
-	EntrepriseDto save(EntrepriseDto dto);
-	
-	EntrepriseDto findById(Integer id);
-	
-	List<EntrepriseDto> findall ();
-	
-	void delete (Integer id);
+  EntrepriseDto save(EntrepriseDto dto);
+
+  EntrepriseDto findById(Integer id);
+
+  List<EntrepriseDto> findAll();
+
+  void delete(Integer id);
+
 }

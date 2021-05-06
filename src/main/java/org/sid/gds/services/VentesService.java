@@ -1,20 +1,18 @@
-package org.sid.gds.services;
+package com.bouali.gestiondestock.services;
 
+import com.bouali.gestiondestock.dto.VentesDto;
 import java.util.List;
-
-import org.sid.gds.dto.CommandeClientDto;
-import org.sid.gds.dto.VentesDto;
-
 
 public interface VentesService {
 
-	VentesDto save(VentesDto dto);
-	
-	VentesDto findById(Integer id);
-	
-	VentesDto findByCode(String code);
-	
-	List<VentesDto> findAll();
-	
-	void delete(Integer id);
+  VentesDto save(VentesDto dto);
+
+  VentesDto findById(Integer id);
+
+  VentesDto findByCode(String code);
+
+  List<VentesDto> findAll();
+
+  void delete(Integer id);
+
 }
