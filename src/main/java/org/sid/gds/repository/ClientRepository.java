@@ -1,8 +1,8 @@
-package org.sid.gds.repository;
+package com.bouali.gestiondestock.repository;
 
-import org.sid.gds.model.Client;
+import com.bouali.gestiondestock.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository <Client, Integer >{
+public interface ClientRepository extends JpaRepository<Client, Integer> {
 
 }

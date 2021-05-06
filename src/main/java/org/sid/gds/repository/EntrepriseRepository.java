@@ -1,8 +1,8 @@
-package org.sid.gds.repository;
+package com.bouali.gestiondestock.repository;
 
-import org.sid.gds.model.Entreprise;
+import com.bouali.gestiondestock.model.Entreprise;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EntrepriseRepository extends JpaRepository <Entreprise, Integer>{
+public interface EntrepriseRepository extends JpaRepository<Entreprise, Integer> {
 
 }

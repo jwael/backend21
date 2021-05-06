@@ -1,8 +1,8 @@
-package org.sid.gds.repository;
+package com.bouali.gestiondestock.repository;
 
-import org.sid.gds.model.Fournisseur;
+import com.bouali.gestiondestock.model.Fournisseur;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FournisseurRepository extends JpaRepository <Fournisseur, Integer> {
+public interface FournisseurRepository extends JpaRepository<Fournisseur, Integer> {
 
 }
