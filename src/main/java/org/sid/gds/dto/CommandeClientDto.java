@@ -1,52 +1,64 @@
-package org.sid.gds.dto;
+package com.bouali.gestiondestock.dto;
 
+import com.bouali.gestiondestock.model.CommandeClient;
+import com.bouali.gestiondestock.model.EtatCommande;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.time.Instant;
 import java.util.List;
-
-import org.sid.gds.model.CommandeClient;
-
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 public class CommandeClientDto {
 
+  private Integer id;
 
-	private Integer id;
-	
-	private String code;
-	
+  private String code;
 
-	private Instant dateCommande;
-	
+  private Instant dateCommande;
 
-	private ClientDto client;
-	
-	
-	private List<LigneCommandeClientDto> ligneCommandeClients;
-	
-	
-	public static CommandeClientDto fromEntity(CommandeClient commandeclient) {
-		if(commandeclient==null) {
-			return null;
-		}
-		return  CommandeClientDto.builder()
-				.id(commandeclient.getId())
-				.code(commandeclient.getCode())
-				.dateCommande(commandeclient.getDateCommande())
-				.client(ClientDto.fromEntity(commandeclient.getClient()))
-				.build();
-	}
-	public static CommandeClient toEntity(CommandeClientDto commandeclientDto) {
-		CommandeClient commandeclient = new CommandeClient();
-		commandeclient.setId(commandeclientDto.getId());
-		commandeclient.setCode(commandeclientDto.getCode());
-		commandeclient.setDateCommande(commandeclientDto.getDateCommande());
-		
-		return commandeclient;
-	}
-	
-	
+  private EtatCommande etatCommande;
 
+  private ClientDto client;
+
+  private Integer idEntreprise;
+
+  private List<LigneCommandeClientDto> ligneCommandeClients;
+
+  public static CommandeClientDto fromEntity(CommandeClient commandeClient) {
+    if (commandeClient == null) {
+      return null;
+    }
+    return CommandeClientDto.builder()
+        .id(commandeClient.getId())
+        .code(commandeClient.getCode())
+        .dateCommande(commandeClient.getDateCommande())
+        .etatCommande(commandeClient.getEtatCommande())
+        .client(ClientDto.fromEntity(commandeClient.getClient()))
+        .idEntreprise(commandeClient.getIdEntreprise())
+        .build();
+
+  }
+
+  public static CommandeClient toEntity(CommandeClientDto dto) {
+    if (dto == null) {
+      return null;
+    }
+    CommandeClient commandeClient = new CommandeClient();
+    commandeClient.setId(dto.getId());
+    commandeClient.setCode(dto.getCode());
+    commandeClient.setClient(ClientDto.toEntity(dto.getClient()));
+    commandeClient.setDateCommande(dto.getDateCommande());
+    commandeClient.setEtatCommande(dto.getEtatCommande());
+    commandeClient.setIdEntreprise(dto.getIdEntreprise());
+    return commandeClient;
+  }
+
+  public boolean isCommandeLivree() {
+    return EtatCommande.LIVREE.equals(this.etatCommande);
+  }
 }

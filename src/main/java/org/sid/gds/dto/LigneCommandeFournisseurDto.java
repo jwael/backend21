@@ -1,56 +1,52 @@
-package org.sid.gds.dto;
+package com.bouali.gestiondestock.dto;
 
+import com.bouali.gestiondestock.model.CommandeFournisseur;
+import com.bouali.gestiondestock.model.LigneCommandeFournisseur;
 import java.math.BigDecimal;
-
-
-import org.sid.gds.model.LigneCommandeFournisseur;
-
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class LigneCommandeFournisseurDto {
-	
-	private Integer id;
 
-	private ArticleDto article;
-	
+  private Integer id;
 
-	private CommandeFournisseurDto commandeFournisseur;
-	
+  private ArticleDto article;
 
-	private BigDecimal quantite;
-	
+  private CommandeFournisseur commandeFournisseur;
 
-	private BigDecimal prixUnitaire;
+  private BigDecimal quantite;
 
-	
+  private BigDecimal prixUnitaire;
 
-	public static LigneCommandeFournisseurDto  fromEntity(LigneCommandeFournisseur ligneCommandeFournisseur) {
-		if(ligneCommandeFournisseur==null) {
-			return null;
-		}
-		return  LigneCommandeFournisseurDto .builder()
-				.id(ligneCommandeFournisseur.getId())
-				.article(ArticleDto.fromEntity(ligneCommandeFournisseur.getArticle()))
-				.commandeFournisseur(CommandeFournisseurDto.fromEntity(ligneCommandeFournisseur.getCommandeFournisseur()))
-				.prixUnitaire(ligneCommandeFournisseur.getPrixUnitaire())
-				.quantite(ligneCommandeFournisseur.getQuantite())
-				.build();
-	}
-	public static LigneCommandeFournisseur toEntity (LigneCommandeFournisseurDto ligneCommandeFournisseurDto) {
-		LigneCommandeFournisseur lignecommandefournisseur = new LigneCommandeFournisseur();
-		lignecommandefournisseur.setId(ligneCommandeFournisseurDto.getId());
-		lignecommandefournisseur.setQuantite(ligneCommandeFournisseurDto.getQuantite());
-		lignecommandefournisseur.setPrixUnitaire(ligneCommandeFournisseurDto.getQuantite());
-		
-		
-		return lignecommandefournisseur;
-		
-		
-		
-		
-		
-	}
+  private Integer idEntreprise;
+
+  public static LigneCommandeFournisseurDto fromEntity(LigneCommandeFournisseur ligneCommandeFournisseur) {
+    if (ligneCommandeFournisseur == null) {
+      return null;
+    }
+    return LigneCommandeFournisseurDto.builder()
+        .id(ligneCommandeFournisseur.getId())
+        .article(ArticleDto.fromEntity(ligneCommandeFournisseur.getArticle()))
+        .quantite(ligneCommandeFournisseur.getQuantite())
+        .prixUnitaire(ligneCommandeFournisseur.getPrixUnitaire())
+        .idEntreprise(ligneCommandeFournisseur.getIdEntreprise())
+        .build();
+  }
+
+  public static LigneCommandeFournisseur toEntity(LigneCommandeFournisseurDto dto) {
+    if (dto == null) {
+      return null;
+    }
+
+    LigneCommandeFournisseur ligneCommandeFournisseur = new LigneCommandeFournisseur();
+    ligneCommandeFournisseur.setId(dto.getId());
+    ligneCommandeFournisseur.setArticle(ArticleDto.toEntity(dto.getArticle()));
+    ligneCommandeFournisseur.setPrixUnitaire(dto.getPrixUnitaire());
+    ligneCommandeFournisseur.setQuantite(dto.getQuantite());
+    ligneCommandeFournisseur.setIdEntreprise(dto.getIdEntreprise());
+    return ligneCommandeFournisseur;
+  }
+
 }

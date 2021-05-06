@@ -1,56 +1,52 @@
-package org.sid.gds.dto;
+package com.bouali.gestiondestock.dto;
 
-import java.util.List;
-
-import org.sid.gds.model.Category;
-
+import com.bouali.gestiondestock.model.Category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 public class CategoryDto {
-	
-	private Integer id;
-	
-	
-	private String code;
-	
 
-	private String designiation;
-	
-	@JsonIgnore
-	private List<ArticleDto> articles;
-	
-	
-	public static CategoryDto fromEntity(Category category) {
-		if(category == null) {
-			return null;
-		}
-		
-		return CategoryDto.builder()
-				.id(category.getId())
-				.code(category.getCode())
-				.designiation(category.getDesigniation())
-				.build();
-				
-	}
-	
-	public static Category toEntity(CategoryDto categoryDto) {
-		if(categoryDto==null) {
-			return null;
-		}
-			
-		Category category = new Category();
-		category.setId(categoryDto.getId());
-		category.setCode(categoryDto.getCode());
-		category.setDesigniation(categoryDto.getDesigniation());
-		return category;
-	
+  private Integer id;
+
+  private String code;
+
+  private String designation;
+
+  private Integer idEntreprise;
+
+  @JsonIgnore
+  private List<ArticleDto> articles;
+
+  public static CategoryDto fromEntity(Category category) {
+    if (category == null) {
+      return null;
+      // TODO throw an exception
+    }
+
+    return CategoryDto.builder()
+        .id(category.getId())
+        .code(category.getCode())
+        .designation(category.getDesignation())
+        .idEntreprise(category.getIdEntreprise())
+        .build();
+  }
+
+  public static Category toEntity(CategoryDto categoryDto) {
+    if (categoryDto == null) {
+      return null;
+      // TODO throw an exception
+    }
+
+    Category category = new Category();
+    category.setId(categoryDto.getId());
+    category.setCode(categoryDto.getCode());
+    category.setDesignation(categoryDto.getDesignation());
+    category.setIdEntreprise(categoryDto.getIdEntreprise());
+
+    return category;
+  }
 }
-
-	
-}
-

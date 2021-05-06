@@ -1,60 +1,53 @@
-package org.sid.gds.dto;
+package com.bouali.gestiondestock.dto;
 
+import com.bouali.gestiondestock.model.LigneCommandeClient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
-
-import org.sid.gds.model.Article;
-import org.sid.gds.model.CommandeClient;
-import org.sid.gds.model.LigneCommandeClient;
-import org.sid.gds.model.LigneCommandeFournisseur;
-
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 public class LigneCommandeClientDto {
-	
-	private Integer id;
 
+  private Integer id;
 
-	private ArticleDto article;
-	
+  private ArticleDto article;
 
-	private CommandeClientDto commandeClient;
-	
+  @JsonIgnore
+  private CommandeClientDto commandeClient;
 
-	private BigDecimal quantite;
-	
-	
-	private BigDecimal prixUnitaire;
-	
+  private BigDecimal quantite;
 
-	public static LigneCommandeClientDto fromEntity(LigneCommandeClient  ligneCommandeClient) {
-		if(ligneCommandeClient==null) {
-			return null;
-		}
-		return LigneCommandeClientDto.builder()
-				.id(ligneCommandeClient.getId())
-				.prixUnitaire(ligneCommandeClient.getPrixUnitaire())
-				.quantite(ligneCommandeClient.getQuantite())
-				.article(ArticleDto.fromEntity(ligneCommandeClient.getArticle()))
-				.commandeClient(CommandeClientDto.fromEntity(ligneCommandeClient.getCommandeClient()))
-				.build();
-									
-	}
-	
-	public static LigneCommandeClient toEntity(LigneCommandeClientDto ligneCommandeClientDto) {
-		if(ligneCommandeClientDto==null) {
-			return null;
-		}
-		LigneCommandeClient ligneCommandeClient = new LigneCommandeClient();
-	
-		ligneCommandeClient.setId(ligneCommandeClientDto.getId());
-		ligneCommandeClient.setPrixUnitaire(ligneCommandeClientDto.getPrixUnitaire());
-		ligneCommandeClient.setQuantite(ligneCommandeClientDto.getQuantite());
-		
-		return ligneCommandeClient;
-}
+  private BigDecimal prixUnitaire;
 
-	
+  private Integer idEntreprise;
+
+  public static LigneCommandeClientDto fromEntity(LigneCommandeClient ligneCommandeClient) {
+    if (ligneCommandeClient == null) {
+      return null;
+    }
+    return LigneCommandeClientDto.builder()
+        .id(ligneCommandeClient.getId())
+        .article(ArticleDto.fromEntity(ligneCommandeClient.getArticle()))
+        .quantite(ligneCommandeClient.getQuantite())
+        .prixUnitaire(ligneCommandeClient.getPrixUnitaire())
+        .idEntreprise(ligneCommandeClient.getIdEntreprise())
+        .build();
+  }
+
+  public static LigneCommandeClient toEntity(LigneCommandeClientDto dto) {
+    if (dto == null) {
+      return null;
+    }
+
+    LigneCommandeClient ligneCommandeClient = new LigneCommandeClient();
+    ligneCommandeClient.setId(dto.getId());
+    ligneCommandeClient.setArticle(ArticleDto.toEntity(dto.getArticle()));
+    ligneCommandeClient.setPrixUnitaire(dto.getPrixUnitaire());
+    ligneCommandeClient.setQuantite(dto.getQuantite());
+    ligneCommandeClient.setIdEntreprise(dto.getIdEntreprise());
+    return ligneCommandeClient;
+  }
+
 }
