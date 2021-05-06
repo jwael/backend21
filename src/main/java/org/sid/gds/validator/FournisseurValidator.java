@@ -1,34 +1,38 @@
-package org.sid.gds.validator;
+package com.bouali.gestiondestock.validator;
 
+import com.bouali.gestiondestock.dto.FournisseurDto;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.sid.gds.dto.FournisseurDto;
 import org.springframework.util.StringUtils;
 
 public class FournisseurValidator {
 
-	public static List<String> validate(FournisseurDto dto){
-		List<String> errors = new ArrayList<>();
-		if(dto==null) {
-			errors.add("Veuilelz renseigner le nom de fournisseur");
-			errors.add("Veuillez renseigner  le prenom de fournisseur");
-			errors.add("Veuillez renseigner l'email de fournisseur");
-			errors.add("Veuillez renseigner le num de tel de fournisseur");
-		}
-		
-		if(!StringUtils.hasLength(dto.getNom())) {
-			errors.add("Veuilelz renseigner le nom de fournisseur");
-		}
-		if(!StringUtils.hasLength(dto.getPrenom())) {
-			errors.add("Veuillez renseigner  le prenom de fournisseur");
-		}
-		if(!StringUtils.hasLength(dto.getEmail())) {
-			errors.add("Veuillez renseigner l'email de fournisseur");	
-		}
-		if(!StringUtils.hasLength(dto.getNumTel())) {
-			errors.add("Veuillez renseigner le num de tel de fournisseur");
-		}
-		return errors;
-	}
+  public static List<String> validate(FournisseurDto dto) {
+    List<String> errors = new ArrayList<>();
+
+    if (dto == null) {
+      errors.add("Veuillez renseigner le nom du fournisseur");
+      errors.add("Veuillez renseigner le prenom du fournisseur");
+      errors.add("Veuillez renseigner le Mail du fournisseur");
+      errors.add("Veuillez renseigner le numero de telephone du fournisseur");
+      errors.addAll(AdresseValidator.validate(null));
+      return errors;
+    }
+
+    if (!StringUtils.hasLength(dto.getNom())) {
+      errors.add("Veuillez renseigner le nom du fournisseur");
+    }
+    if (!StringUtils.hasLength(dto.getPrenom())) {
+      errors.add("Veuillez renseigner le prenom du fournisseur");
+    }
+    if (!StringUtils.hasLength(dto.getMail())) {
+      errors.add("Veuillez renseigner le Mail du fournisseur");
+    }
+    if (!StringUtils.hasLength(dto.getNumTel())) {
+      errors.add("Veuillez renseigner le numero de telephone du fournisseur");
+    }
+    errors.addAll(AdresseValidator.validate(dto.getAdresse()));
+    return errors;
+  }
+
 }
